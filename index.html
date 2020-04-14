@@ -7,11 +7,15 @@
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
 
-    <title>reveal.js</title>
+    <title>ITCSS pour les Heros</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
 
     <link rel="stylesheet" href="css/reset.css" />
     <link rel="stylesheet" href="css/reveal.css" />
-    <link rel="stylesheet" href="css/theme/black.css" />
+    <link rel="stylesheet" href="css/theme/league.css" />
+
+    <link rel="stylesheet" href="css/custom.css" />
 
     <!-- Theme used for syntax highlighting of code -->
     <link rel="stylesheet" href="lib/css/monokai.css" />
@@ -32,7 +36,13 @@
       <div class="slides">
         <section>
           <h1>ITCSS</h1>
+          <img src="/lib/img/itcssLogo.jpeg" width="550px" alt="itcss logo" />
           <h2>L'architecture CSS des heros</h2>
+          <aside class="notes">
+            Bienvenue à la prez sur l'ITCSS <br />
+            Le but est de balayer les avantages d'une telle architecture par
+            rapport à une architecture classique
+          </aside>
         </section>
         <section>
           <h1>Sommaire</h1>
@@ -42,35 +52,289 @@
             <li>ITCSS EN PRATIQUE</li>
           </ol>
         </section>
-        <section>
+        <section data-background="Teal">
           <h2>TRAVERS DE L'ARCHITECTURE "TRADITIONNELLE"</h2>
         </section>
         <section>
-          <h6>TRAVERS DE L'ARCHITECTURE "TRADITIONNELLE"</h6>
-          <section><h3>Hiérarchie du code</h3></section>
-          <section><h3>Gestion spécificité</h3></section>
-          <section><h3>Surcharge</h3></section>
-          <section><h3>Tips</h3></section>
+          <section>
+            <h5>Hiérarchie du code</h5>
+            <div>
+              <ul>
+                <li>Uniformisation des styles navigateurs (Reset/Normalize)</li>
+                <li>Styles de page (html/body)</li>
+                <li>
+                  Composants
+                  <ul>
+                    <li>En-tête</li>
+                    <li>Navigation</li>
+                    <li>Contenu principal</li>
+                    <li>...</li>
+                  </ul>
+                </li>
+                <li>Hacks (Styles réservés à IE)</li>
+                <li>Fonctionnalités de la v2</li>
+              </ul>
+            </div>
+            <aside class="notes">
+              En général voici une architecture "classique" <br />
+              Ou est ce qu'on ajoute les nouvelles versions en général ? (fin de
+              doc)
+            </aside>
+          </section>
+          <section>
+            <h5>Gestion spécificité</h5>
+            <div>
+              <img src="lib/img/CSSGraph.png" width="700px" alt="css graph" />
+            </div>
+            <aside class="notes">
+              Petit rappel sur le poids des selecteurs <br />identifiants = 100
+              <br />classes, attributs, pseudo-classes(:focus) = 10
+              <br />element, pseudo-elements(::before) = 1
+            </aside>
+          </section>
+          <section>
+            <h5>Surcharge</h5>
+            <div>
+              <pre><code>
+.gb_D {
+  ...
+  color: #000;
+  cursor: pointer;
+  text-decoration: none;
+}
+#gb a.gb_D {
+  color: red;
+  cursor: default;
+}
+#gb#gb a.gb_D {
+  color: #000;
+  cursor: pointer;
+}
+</code></pre>
+            </div>
+            <aside class="notes">
+              Pour palier aux spécificités on surcharge<br />
+              Escalade de la surcharge<br />
+              Dans cet exemple quel est le poids des sélecteurs ?<br />
+            </aside>
+          </section>
+          <section
+            data-background-iframe="https://codepen.io/Folpe/embed/OJVGwjN?editors=1000"
+            data-background-interactive="present"
+          >
+            <aside class="notes">
+              Entre style inline et id qui prend le pas ?<br />
+              TIPS : augmenter le poids grace aux attributs de classe /
+              augmenter le poids par multiplication du sélecteur
+            </aside>
+          </section>
         </section>
-        <section>
+        <section data-background="Teal">
           <h2>AVANTAGES DE L’ARCHITECTURE ITCSS</h2>
         </section>
         <section>
-          <h6>AVANTAGES DE L’ARCHITECTURE ITCSS</h6>
-          <section><h3>Objectifs</h3></section>
-          <section><h3>Graphes spécificité</h3></section>
-          <section><h3>Triangle Inversé</h3></section>
+          <section>
+            <h5>Objectifs</h5>
+            <div></div>
+            <ul>
+              <li>
+                Contrôler l’évolution du niveau de spécificité
+              </li>
+              <li>
+                Faciliter la compréhension du code
+              </li>
+              <li>
+                Simplifier la contribution
+              </li>
+            </ul>
+            <aside class="notes">
+              1. Éviter tout conflit entre cascade et spécificité <br />
+              2. Arborescence claire et logique de la feuille de styles
+              <br />
+              3. Code segmenté : Nouveaux styles sont ajoutés sereinement
+            </aside>
+          </section>
+          <section>
+            <h5>Graphes spécificité</h5>
+            <div id="graph">
+              <img
+                src="/lib/img/ITCSSGraph.png"
+                width="700px"
+                alt="itcss graph"
+              />
+              <div class="fragment graphHighlight graph-01"></div>
+              <div class="fragment graphHighlight graph-02"></div>
+              <div class="fragment graphHighlight graph-03"></div>
+              <div class="fragment graphHighlight graph-04"></div>
+              <div class="fragment graphHighlight graph-05"></div>
+            </div>
+            <aside class="notes">
+              Expliquer le poids de chaque couche en faisant un zoom
+              <ol>
+                <li>Generiques (reset): 0 ~ 2/3</li>
+                <li>Elements (body,h1): 1 ~ 2/3</li>
+                <li>Objets (.layout, .media): 10 ~ 20/30</li>
+                <li>Composants (.card, .footer): 10 ~ 20/30</li>
+                <li>Utilitaires (.truncate): 10 ~ 120/130</li>
+              </ol>
+            </aside>
+          </section>
+          <section>
+            <h5>Triangle Inversé</h5>
+            <div>
+              <img
+                src="/lib/img/InvertedTriangle.png"
+                width="700px"
+                alt="itcss graph"
+              />
+            </div>
+            <aside class="notes">
+              Plus on avance dans les couches, plus la spécificité et la
+              précision sont élevées et plus la porté est réduite
+              <ol>
+                <li>Paramétrage (variables) - non générateur code</li>
+                <li>Outils (mixin) - non générateur code</li>
+                <li>Generiques</li>
+                <li>Elements</li>
+                <li>Objets</li>
+                <li>Composants</li>
+                <li>Thème</li>
+                <li>Utilitaires</li>
+              </ol>
+              Portée = Nombre éléments concernés<br />
+              Spécificité = Le poids du sélecteur<br />
+              Précision = A quel point la règle doit être détaillée
+            </aside>
+          </section>
         </section>
-        <section>
+        <section data-background="Teal">
           <h2>ITCSS EN PRATIQUE</h2>
         </section>
         <section>
-          <h6>ITCSS EN PRATIQUE</h6>
-          <section><h3>Organisation</h3></section>
-          <section><h3>BEMIT</h3></section>
+          <section>
+            <h5>Organisation</h5>
+            <div>
+              1 fichier = 1 ensemble de styles
+              <pre><code>
+| styles.scss |
++""-components
+| | _components.button.scss
+| | … |
++""-elements
+| | _elements.focus.scss
+| | … |
++""-generics
+| | _generics.box-sizing.scss
+| | … |
++""-objects
+| | _objects.layout.scss
+| | … |
+\""-utilities
+	| _utilities.visually-hidden.scss
+</code></pre>
+            </div>
+            <aside class="notes">
+              Architecture ITCSS c'est avant tout une architecture. L'idée est
+              de suivre la logique des couches
+            </aside>
+          </section>
+          <section>
+            <h5>BEMIT</h5>
+            BEM
+            <pre><code>
+.block__element--modifier {...}
+</code></pre>
+
+            IT
+            <pre><code>
+.o-media__img {...}
+.c-panel__body--modifier {...}
+</code></pre>
+
+            <aside class="notes">
+              BEMIT c'est la puissance de BEM coupler à l'architecture de ITCSS.
+              Pour ça on va utiliser les espaces de nom, ce qui va permettre une
+              meilleur lisibilité et un travail plus serein
+            </aside>
+          </section>
+          <section>
+            <h5>Espaces de nom</h5>
+            <ol>
+              <li>Thème (.t-)</li>
+              <li>Cadre d’application (.s-)</li>
+              <li>Objet (.o-)</li>
+              <li>Composant (.c-)</li>
+              <li>Hack (._)</li>
+              <li>État (.is- / .has-)</li>
+              <li>Style utilitaire (.u-)</li>
+              <li>Comportement JavaScript (.js-)</li>
+              <li>Test fonctionnel (.qa-)</li>
+            </ol>
+            <aside class="notes">
+              Expliquer chaque point :
+              <ol>
+                <li>
+                  Thème : Classe de haut niveau / Sert à établir un contexte
+                </li>
+                <li>
+                  Cadre d’application : scope (ex: contenu editorial
+                  .s-cms-content)
+                </li>
+                <li>
+                  Objet : Motif de conception structurel (modifier avec
+                  précaution
+                </li>
+                <li>Composant : Partie de l’interface utilisateur</li>
+                <li>Hack : Classe permettant un hack (ex: IE)</li>
+                <li>État : Classe de « bascule » (isExpanded, isCollapsed)</li>
+                <li>
+                  Style utilitaire : Style répondant au principe de
+                  responsabilité unique
+                </li>
+                <li>
+                  Comportement JavaScript : Classe porteuse d’aucun style
+                  graphique
+                </li>
+                <li>
+                  Test fonctionnel : Permet de cibler un composant spécifique
+                  pour les qa
+                </li>
+              </ol>
+              TIPS : on peut séparer les classes avec un / qui ne sera pas
+              interprété
+            </aside>
+          </section>
+          <section>
+            <h5>Suffixes responsive</h5>
+            css
+            <pre><code>
+.nom-classe@from-palier-ciblé
+</code></pre>
+            html
+            <pre>
+<code>
+class="u-br@from-lg"
+</code></pre>
+            <aside class="notes">
+              Possibilité d'utiliser les suffixes pour les médias queries
+            </aside>
+          </section>
+          <section
+            data-background-iframe="https://codepen.io/Folpe/embed/yLNQeZz?editors=1000"
+            data-background-interactive="present"
+          >
+            <aside class="notes">
+              Important d'avoir une structure HTML/CSS claire <br />
+              Bibliothèque commune (moins de temps à gérer le css + focalisé sur
+              le js)<br />Un peu verbeux mais lisible = gain de temps,
+              maintenable
+            </aside>
+          </section>
         </section>
-        <section><h3>Questions ?</h3></section>
-        <section><h3>Merci</h3></section>
+        <section>
+          <h5>Questions ?</h5>
+        </section>
+        <section><h5>Merci</h5></section>
       </div>
     </div>
 
@@ -86,6 +350,7 @@
           { src: 'plugin/markdown/marked.js' },
           { src: 'plugin/markdown/markdown.js' },
           { src: 'plugin/highlight/highlight.js' },
+          { src: 'plugin/zoom-js/zoom.js', async: true },
           { src: 'plugin/notes/notes.js', async: true },
         ],
       })

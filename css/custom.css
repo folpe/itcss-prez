@@ -1,0 +1,29 @@
+#graph {
+  position: relative;
+}
+.graphHighlight {
+  position: absolute;
+  top: 20px;
+  height: 338px;
+  background: rgba(0, 158, 111, 0.5);
+}
+.graph-01 {
+  left: 182px;
+  width: 130px;
+}
+.graph-02 {
+  left: 320px;
+  width: 100px;
+}
+.graph-03 {
+  left: 430px;
+  width: 85px;
+}
+.graph-04 {
+  left: 525px;
+  width: 145px;
+}
+.graph-05 {
+  left: 680px;
+  width: 125px;
+}
